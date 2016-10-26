@@ -1,5 +1,4 @@
 class FruitBay:
-    depends = 'sort_machine'
     def __init__(self,sort_machine):
         self.fruits = []
         self.sort_machine = sort_machine
