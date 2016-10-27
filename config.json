@@ -1,7 +1,7 @@
 [
     {
         "module":"client_code",
-        "component_name":"my_sort_machine",
+        "method_name":"my_sort_machine",
         "dependency_name":"sort_machine"
     }
 ]
