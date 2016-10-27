@@ -28,7 +28,6 @@ Here is the traditional implementation of FruitBay
 <raw>
 
 class FruitBayTraditional:
-
     def __init__(self):
         self.fruits = []
 
