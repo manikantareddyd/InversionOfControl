@@ -1,5 +1,4 @@
-# 
-
+# Inversion of Control 
 This sample implements IoC and compares the approach with a traditional formulation of the same problem.
 
 Inversion of Control (IoC) increases the modularity of program and introduce flexibilty to add run time components and perform independent testing of individual components without worrying about the dependencies. 
@@ -10,6 +9,8 @@ This sample is written in python 2.7 and depends on pip2 package simplejson.
 
 The directory structure will be explained later.
 
+---
+
 # Use - Case
 
 The user in the end has the capability to create instances of a class called **FruitBay**. 
@@ -17,6 +18,8 @@ The user in the end has the capability to create instances of a class called **F
 FruitBay is capable of storing fruit names and their corresponding prices.
 
 It can also provide with the cheapest fruit.
+
+---
 
 # Implementation
 
@@ -27,6 +30,8 @@ FruitBay provides two methods.
 + FruitBay.get_cheapest_fruit
     + usage: `FruitBay.get_cheapest_fruit()`
     + returns: Name of the cheapest fruit, added till now
+
+---
 
 ## Traditional
 Here is the traditional implementation of FruitBay
@@ -91,4 +96,12 @@ It would be painful for the client to create instances of dependencies and then 
 
 It also creates redundant declarations during testing phase. We'll be interested in testing a single component, but end up writing code for instance creation of dependencies.
 
-What if, there was a way to hand over the dependencies to the object only when it's created and avoid unnecessary declarations. We'll need a mechanism, a control sequence, to find what our object depends on and then provide the them. 
+What if, there was a way to hand over the dependencies to the object only when it's created and avoid unnecessary declarations. We'll need a mechanism, a control sequence, to find what our object depends on and then provide the them.
+
+This can be acheived by implementing containers or locators. We'll be using the term container henceforth.
+---
+
+# Container
+
+Container is a service that can manage dependencies and provide them when required. 
+
