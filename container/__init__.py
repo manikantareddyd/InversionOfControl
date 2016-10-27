@@ -6,8 +6,15 @@ class Container:
     def add_component(self,module,component_name,dependency_name):
         m = __import__ (module)
         component = getattr(m,component_name)
-        self.registered_components.append(component)
-        self.registered_components_names.append(dependency_name)
+        if type(component).__name__ == 'function':
+            self.registered_components.append(component)
+            self.registered_components_names.append(dependency_name)
+        else:
+            print "Unknown Type of Component",component.__name__
+            print "Not understood:",type(component).__name__
+            print "Only components of type 'function' are allowed to be registered"
+            exit(0)
+        
     
     def resolve(self,component):
         if type(component).__name__ == 'classobj':
@@ -15,7 +22,7 @@ class Container:
         else:
             print "Unknown Type of Component",component.__name__
             print "Not understood:",type(component).__name__
-            print "Only components of type 'classobj' are allowed"
+            print "Only components of type 'classobj' are allowed to be resolved"
             exit(0)
         dependency_keys = []
         for dependency in dependencies:
