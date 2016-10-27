@@ -7,6 +7,11 @@ We'll view IoC as Dependency Injection (DI). We'll essentially decouple the depe
 
 This sample is written in `python 2.7` and depends on pip2 package `simplejson`.
 
+Run as
+```shell
+$ python2.7 main.py
+```
+
 # Use - Case
 
 The user in the end has the capability to create instances of a class called **FruitBay**.
@@ -179,3 +184,9 @@ Notice that client has no knowledge of the dependencies of FruitBay, except that
 For small implementations that Advantages are not that apparent.
 
 A huge framework may be built in whose documentation it is mentioned that the user can define some methods and register them against existing methods in the framework. The user may not know which classes would use which function (and is generally not interested) but just that their implementation of a particular method works better in their usage scenario. So all that the client has to do define such methods and register them and finally use the resolve method to generate object against usual object instantiation.
+
+During testing phases, when testing individual components, we need not worry about declaring the dependencies of the component under testing. Using the `resolve` method you could have directly generated the instance of the class and test it.
+
+Another advantage is centralization of dependencies. By utilizing we can have much cleaner code of tracking all the methods in the project.
+
+ 
