@@ -1,9 +1,8 @@
 from framework import *
 from container import *
 
-
 container = Container()
-# container.add_component("client_code","my_sort_machine","sort_machine")
+# container.add_component(module="client_code",component_name="my_sort_machine",dependency_name="sort_machine")
 container.register_from_config()
 
 fuku = container.resolve(FruitBay)

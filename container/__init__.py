@@ -7,6 +7,10 @@ class Container:
         m = __import__ (module)
         component = getattr(m,component_name)
         if type(component).__name__ == 'function':
+            if dependency_name in self.registered_components_names:
+                print "A component for",dependency_name,"has already been registered as",self.registered_components[self.registered_components_names.index(dependency_name)].__name__
+                print "Please check for multiple registrations and clashes. Only a single function can be registered for a dependency."
+                exit(0)
             self.registered_components.append(component)
             self.registered_components_names.append(dependency_name)
         else:
@@ -14,7 +18,6 @@ class Container:
             print "Not understood:",type(component).__name__
             print "Only components of type 'function' are allowed to be registered"
             exit(0)
-        
     
     def resolve(self,component):
         if type(component).__name__ == 'classobj':
