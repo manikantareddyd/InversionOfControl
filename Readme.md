@@ -1,9 +1,9 @@
-# Inversion of Control 
+# Inversion of Control
 This sample implements IoC and compares the approach with a traditional formulation of the same problem.
 
-Inversion of Control (IoC) increases the modularity of program and introduce flexibilty to add run time components and perform independent testing of individual components without worrying about the dependencies. 
+Inversion of Control (IoC) increases the modularity of program and introduce flexibilty to add run time components and perform independent testing of individual components without worrying about the dependencies.
 
-We'll view IoC as Dependency Injection (DI). We'll essentially decouple the dependencies between layers through some shared abstractions. 
+We'll view IoC as Dependency Injection (DI). We'll essentially decouple the dependencies between layers through some shared abstractions.
 
 This sample is written in python 2.7 and depends on pip2 package simplejson.
 
@@ -13,7 +13,7 @@ The directory structure will be explained later.
 
 # Use - Case
 
-The user in the end has the capability to create instances of a class called **FruitBay**. 
+The user in the end has the capability to create instances of a class called **FruitBay**.
 
 FruitBay is capable of storing fruit names and their corresponding prices.
 
@@ -24,10 +24,10 @@ It can also provide with the cheapest fruit.
 # Implementation
 
 FruitBay provides two methods.
-+ FruitBay.add_fruit
++ `FruitBay.add_fruit`
     + usage: `FruitBay.add_fruit(fruit_name="Apple",fruit_price="20")`
     + returns: None
-+ FruitBay.get_cheapest_fruit
++ `FruitBay.get_cheapest_fruit`
     + usage: `FruitBay.get_cheapest_fruit()`
     + returns: Name of the cheapest fruit, added till now
 
@@ -90,9 +90,9 @@ We can have any generic algorithm in the `my_sort_machine` method. Notice that `
 
 We could have allowed the client to choose the method. To push it further we could have asked the client to implement their own sort.
 
-For a few classes and methods this might seem trivial case. Now Imagine a Class that depends on numerous other components. 
+For a few classes and methods this might seem trivial case. Now Imagine a Class that depends on numerous other components.
 
-It would be painful for the client to create instances of dependencies and then pass them as arguments. 
+It would be painful for the client to create instances of dependencies and then pass them as arguments.
 
 It also creates redundant declarations during testing phase. We'll be interested in testing a single component, but end up writing code for instance creation of dependencies.
 
@@ -133,12 +133,57 @@ and then called the `Container.register_from_config` method. The result is exact
 
 `Container.resolve` will automatically decide what the class provided to it depends on and checks if such a dependency has been registered with it and then creates an instance of the class by injecting the dependency from the registered methods.
 
-For the example in use case, `resolve` will figure out that `FruitBay` has a dependency by name `sort_machine`, checks if any method has been registered to satisfy `sort_machine` and use it to create an instance of `FruitBay` and return it. 
+For the example in use case, `resolve` will figure out that `FruitBay` has a dependency by name `sort_machine`, checks if any method has been registered to satisfy `sort_machine` and use it to create an instance of `FruitBay` and return it.
 
 We'll not discuss the implementation of `Container` class as its irrelavant to understanding Dependency injection. However the feel free to dig into the `container` module.
 
 ---
 
-# Directory Structure
+# Final Working
 
-We understand that the client would be provided with `framework` and `container`
++ Client writes required implementations in the `client_code` module
++ Client registers such methods with the `container`
++ Client need not worry about what dependencies a class has and can call the `resolve` method to create an instance.
+
+Lets take a look at the code.
+
+### framework
+```python
+class FruitBay:
+    def __init__(self,sort_machine):
+        self.fruits = []
+        self.sort_machine = sort_machine
+
+    def add_fruit(self,fruit_name,fruit_price):
+        self.fruits.append({'name':fruit_name,'price':fruit_price})
+
+    def get_cheapest_fruit(self):
+        sorted_fruits = self.sort_machine(self.fruits)
+        return sorted_fruits[0]['name']
+```
+
+### client_code
+```python
+def my_sort_machine(x):
+    return sorted(x, key=lambda k: k['price'])
+```
+### main
+```python
+from framework import *
+from container import *
+from traditional import *
+
+### IOC Implementation ###
+container = Container()
+# container.add_method(module="client_code",method_name="my_sort_machine",dependency_name="sort_machine")
+container.register_from_config()
+
+fuku = container.resolve(required_class=FruitBay)
+
+fuku.add_fruit("Apple",12)
+fuku.add_fruit("PineApple",1)
+fuku.add_fruit("Grape",34)
+
+print fuku.get_cheapest_fruit()
+```
+Notice that client has no knowledge of the dependencies of FruitBay, except that he needs to define some methods in the `client_code` module.
