@@ -3,9 +3,11 @@ class Container:
         self.registered_components = []
         self.registered_components_names = []
 
-    def add_component(self,component):
+    def add_component(self,module,component_name,dependency_name):
+        m = __import__ (module)
+        component = getattr(m,component_name)
         self.registered_components.append(component)
-        self.registered_components_names.append(component.__name__)
+        self.registered_components_names.append(dependency_name)
     
     def resolve(self,component):
         if type(component).__name__ == 'classobj':

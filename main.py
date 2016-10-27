@@ -1,9 +1,9 @@
 from framework import *
 from container import *
-from client_code import *
+
 
 container = Container()
-container.add_component(sort_machine)
+container.add_component("client_code","sort_machine","sort_machine")
 
 fuku = container.resolve(FruitBay)
 
