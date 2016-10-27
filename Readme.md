@@ -7,9 +7,6 @@ We'll view IoC as Dependency Injection (DI). We'll essentially decouple the depe
 
 This sample is written in `python 2.7` and depends on pip2 package `simplejson`.
 
-
----
-
 # Use - Case
 
 The user in the end has the capability to create instances of a class called **FruitBay**.
@@ -17,8 +14,6 @@ The user in the end has the capability to create instances of a class called **F
 FruitBay is capable of storing fruit names and their corresponding prices.
 
 It can also provide with the cheapest fruit.
-
----
 
 # Implementation
 
@@ -29,8 +24,6 @@ FruitBay provides two methods.
 + `FruitBay.get_cheapest_fruit`
     + usage: `FruitBay.get_cheapest_fruit()`
     + returns: Name of the cheapest fruit, added till now
-
----
 
 ## Traditional
 Here is the traditional implementation of FruitBay
@@ -54,8 +47,6 @@ fuku.add_fruit("Grape",34)
 
 print fuku.get_cheapest_fruit()
 ```
-
----
 
 ## Inducing Dependency (Decoupling the execution)
 
@@ -99,8 +90,6 @@ What if, there was a way to hand over the dependencies to the object only when i
 
 This can be acheived by implementing containers or locators. We'll be using the term container henceforth.
 
----
-
 # Container
 
 Container is a service that can manage dependencies and provide them when required. Container is capable of keeping track of user implemented methods and inject those methods into object when created.
@@ -135,8 +124,6 @@ and then called the `Container.register_from_config` method. The result is exact
 For the example in use case, `resolve` will figure out that `FruitBay` has a dependency by name `sort_machine`, checks if any method has been registered to satisfy `sort_machine` and use it to create an instance of `FruitBay` and return it.
 
 We'll not discuss the implementation of `Container` class as its irrelavant to understanding Dependency injection. However the feel free to dig into the `container` module, its really a simple implementation.
-
----
 
 # Final Working
 
@@ -186,8 +173,6 @@ fuku.add_fruit("Grape",34)
 print fuku.get_cheapest_fruit()
 ```
 Notice that client has no knowledge of the dependencies of FruitBay, except that he needs to define some methods in the `client_code` module.
-
----
 
 # Advantages
 
