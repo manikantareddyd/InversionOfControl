@@ -5,9 +5,8 @@ Inversion of Control (IoC) increases the modularity of program and introduce fle
 
 We'll view IoC as Dependency Injection (DI). We'll essentially decouple the dependencies between layers through some shared abstractions.
 
-This sample is written in python 2.7 and depends on pip2 package simplejson.
+This sample is written in `python 2.7` and depends on pip2 package `simplejson`.
 
-The directory structure will be explained later.
 
 ---
 
@@ -135,7 +134,7 @@ and then called the `Container.register_from_config` method. The result is exact
 
 For the example in use case, `resolve` will figure out that `FruitBay` has a dependency by name `sort_machine`, checks if any method has been registered to satisfy `sort_machine` and use it to create an instance of `FruitBay` and return it.
 
-We'll not discuss the implementation of `Container` class as its irrelavant to understanding Dependency injection. However the feel free to dig into the `container` module.
+We'll not discuss the implementation of `Container` class as its irrelavant to understanding Dependency injection. However the feel free to dig into the `container` module, its really a simple implementation.
 
 ---
 
@@ -187,3 +186,11 @@ fuku.add_fruit("Grape",34)
 print fuku.get_cheapest_fruit()
 ```
 Notice that client has no knowledge of the dependencies of FruitBay, except that he needs to define some methods in the `client_code` module.
+
+---
+
+# Advantages
+
+For small implementations that Advantages are not that apparent.
+
+A huge framework may be built in whose documentation it is mentioned that the user can define some methods and register them against existing methods in the framework. The user may not know which classes would use which function (and is generally not interested) but just that their implementation of a particular method works better in their usage scenario. So all that the client has to do define such methods and register them and finally use the resolve method to generate object against usual object instantiation.
