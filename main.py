@@ -1,13 +1,11 @@
-import framework
-import container
+from framework import *
+from container import *
+from client_code import *
 
-def sort_machine(x):
-    return sorted(x, key=lambda k: k['price'])  
-
-container = container.Container()
+container = Container()
 container.add_component(sort_machine)
 
-fuku = container.resolve(framework.FruitBay)
+fuku = container.resolve(FruitBay)
 
 fuku.add_fruit("Apple",12)
 fuku.add_fruit("PineApple",1)
