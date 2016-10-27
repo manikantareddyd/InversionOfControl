@@ -17,25 +17,23 @@ The user in the end has the capability to create instances of a class called **F
 
 FruitBay provides two methods.
 + FruitBay.add_fruit
-    > usage: FruitBay.add_fruit(fruit_name="Apple",fruit_price="20")
-    > returns: None
+    + usage: FruitBay.add_fruit(fruit_name="Apple",fruit_price="20")
+    + returns: None
 + FruitBay.get_cheapest_fruit
-    > usage: FruitBay.get_cheapest_fruit()
-    > returns: Name of the cheapest fruit, added till now
+    + usage: FruitBay.get_cheapest_fruit()
+    + returns: Name of the cheapest fruit, added till now
 
 Here is the traditional implementation of FruitBay
 
-<raw>
+```
+    class FruitBayTraditional:
+        def __init__(self):
+            self.fruits = []
 
-class FruitBayTraditional:
-    def __init__(self):
-        self.fruits = []
+        def add_fruit(self,fruit_name,fruit_price):
+            self.fruits.append({'name':fruit_name,'price':fruit_price})
 
-    def add_fruit(self,fruit_name,fruit_price):
-        self.fruits.append({'name':fruit_name,'price':fruit_price})
-
-    def get_cheapest_fruit(self):
-        sorted_fruits = sorted(self.fruits, key=lambda k: k['price'])
-        return sorted_fruits[0]['name']
-
-</raw>
+        def get_cheapest_fruit(self):
+            sorted_fruits = sorted(self.fruits, key=lambda k: k['price'])
+            return sorted_fruits[0]['name']
+```
