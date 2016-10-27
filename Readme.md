@@ -1,7 +1,4 @@
-Inversion of Control
----
-
-# Introduction
+# 
 
 This sample implements IoC and compares the approach with a traditional formulation of the same problem.
 
@@ -34,7 +31,7 @@ FruitBay provides two methods.
 ## Traditional
 Here is the traditional implementation of FruitBay
 
-```
+```python
 class FruitBayTraditional:
     def __init__(self):
         self.fruits = []
@@ -56,11 +53,11 @@ print fuku.get_cheapest_fruit()
 
 ---
 
-## Inducing Dependency
+## Inducing Dependency (Decoupling the execution)
 
 In the `get_cheapest_fruit` we could have used any sorting algorithm. So it would be better if we fragment the code as follows.
 
-```
+```python
 class FruitBayFragmented:
     def __init__(self,sort_machine):
         self.fruits = []
@@ -84,6 +81,14 @@ fuku.add_fruit("Grape",34)
 print fuku.get_cheapest_fruit()
 ```
 
-So we could have had any generic algorithm in the `my_sort_machine` method. Notice that `FruitBayFragmented` has no idea about the implementation of `sort_machine` within its implementation, except that it takes an input of a dictionary and produces a dictionary as an output.
+We can have any generic algorithm in the `my_sort_machine` method. Notice that `FruitBayFragmented` has no idea about the implementation of `sort_machine` within its implementation, except that it takes an input of a dictionary and produces a dictionary as an output.
 
-Now we could have allowed the client to choose the method. To push it further we could have asked the client to implement their own sort.
+We could have allowed the client to choose the method. To push it further we could have asked the client to implement their own sort.
+
+For a few classes and methods this might seem trivial case. Now Imagine a Class that depends on numerous other components. 
+
+It would be painful for the client to create instances of dependencies and then pass them as arguments. 
+
+It also creates redundant declarations during testing phase. We'll be interested in testing a single component, but end up writing code for instance creation of dependencies.
+
+What if, there was a way to hand over the dependencies to the object only when it's created and avoid unnecessary declarations. We'll need a mechanism, a control sequence, to find what our object depends on and then provide the them. 
