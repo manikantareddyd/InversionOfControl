@@ -99,9 +99,46 @@ It also creates redundant declarations during testing phase. We'll be interested
 What if, there was a way to hand over the dependencies to the object only when it's created and avoid unnecessary declarations. We'll need a mechanism, a control sequence, to find what our object depends on and then provide the them.
 
 This can be acheived by implementing containers or locators. We'll be using the term container henceforth.
+
 ---
 
 # Container
 
-Container is a service that can manage dependencies and provide them when required. 
+Container is a service that can manage dependencies and provide them when required. Container is capable of keeping track of user implemented methods and inject those methods into object when created.
 
+Container provides three methods.
++ `Container.add_method`
+    + usage: `Container.add_method(module="client_code",method_name="my_sort_machine",dependency_name="sort_machine")`
+    + returns: None
++ `Container.register_from_config`
+    + usage: `Container.register_from_config()`
+    + returns: None
++ `Container.resolve`
+    + usage: `Container.resolve(required_class=FruitBay)`
+    + returns: An instance of class `FruitBay` complete with dependencies resolved.
+
+`Container.add_method` registers the method provided to it. For example in usage case, it'll search for `my_sort_machine` in the `client_code` module and registers it as method that can satisfy the dependency `sort_machine`.
+
+Instead of using the above method we could also have provided a config.json file as below
+```json
+[
+    {
+        "module":"client_code",
+        "method_name":"my_sort_machine",
+        "dependency_name":"sort_machine"
+    }
+]
+```
+and then called the `Container.register_from_config` method. The result is exactly the same.
+
+`Container.resolve` will automatically decide what the class provided to it depends on and checks if such a dependency has been registered with it and then creates an instance of the class by injecting the dependency from the registered methods.
+
+For the example in use case, `resolve` will figure out that `FruitBay` has a dependency by name `sort_machine`, checks if any method has been registered to satisfy `sort_machine` and use it to create an instance of `FruitBay` and return it. 
+
+We'll not discuss the implementation of `Container` class as its irrelavant to understanding Dependency injection. However the feel free to dig into the `container` module.
+
+---
+
+# Directory Structure
+
+We understand that the client would be provided with `framework` and `container`
