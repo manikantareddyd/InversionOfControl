@@ -25,3 +25,9 @@ class Container:
             dependency_keys.append(self.registered_components_names.index(dependency))
         dependency_methods = [self.registered_components[key] for key in dependency_keys]
         return component(*dependency_methods)
+
+    def register_from_config(self):
+        with open("config.json") as json_file:
+            import simplejson as json
+            for entry in json.load(json_file):
+                self.add_component(module=entry["module"],component_name=entry["component_name"],dependency_name=entry["dependency_name"])
